@@ -10,7 +10,9 @@
 <div class="merch_sub_full_center">
   <h3> My Invoices</h3></div><br>
     <ol><% @merchant.invoices.distinct.each do |i| %>
-      <p>Invoice # <%= link_to i.id, "/merchants/#{@merchant.id}/invoices/#{i.id}" %></p>
+      <%= link_to "Invoice ##{i.id}", "/merchants/#{@merchant.id}/invoices/#{i.id}" %> | 
+        <%= i.format_date %> | 
+        <b>Status:</b> <%= i.status.titleize %><br><br>
     <% end %>
   </ol>
 </div>

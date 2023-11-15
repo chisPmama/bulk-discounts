@@ -8,20 +8,20 @@
 <h3> <%= @merchant.name %> </h3>
 <br><br>
 
-<div class="merch_sub_full_center">
-<h3> Invoice #<%= @invoice.id %></h3></div><br><br>
-<b><p>Invoice Status: <%= @invoice.status %></p></b>
-<b><p>Invoice Date: <%= @invoice.created_at.strftime('%A, %B %d, %Y') %></p></b>
+<div class="merch_sub_full_center"><h3> Invoice #<%= @invoice.id %></h3></div><br><br>
+<ol>
+  <b><p>Invoice Status: <%= @invoice.status.titleize %></p></b>
+  <b><p>Invoice Date: <%= @invoice.created_at.strftime('%A, %B %d, %Y') %></p></b>
 
-<h3><b><p>Total Revenue: <%= number_to_currency(@invoice.potential_revenue, unit: "$") %></p></b></h3>
-<h3><b><p>Total Discounted Revenue: <%= number_to_currency(@invoice.discounted_revenue, unit: "$") %></p></b></h3>
+  <h3><b><p>Total Revenue: <%= number_to_currency(@invoice.potential_revenue, unit: "$") %></p></b></h3>
+  <h3><b><p>Total Discounted Revenue: <%= number_to_currency(@invoice.discounted_revenue, unit: "$") %></p></b></h3>
 
-<h3>Customer Name: <%= @invoice.customer.name %></h3>
+  <h3>Customer Name: <%= @invoice.customer.name %></h3>
 
-</div>
+  </div>
 
-<h3>Items on this Invoice</h3>
-
+  <h3>Items on this Invoice</h3>
+</ol>
 <div class="m_table" role="region" tabindex="0">
   <table>
     <tr>
@@ -40,7 +40,7 @@
               <td><%= item.name %></td>
               <td><%= ii.quantity %></td>
               <td><%= number_to_currency(ii.price) %></td>
-              <td><%= ii.status %></td>
+              <td><%= ii.status.titleize %></td>
               <td><% if ii.bulk_discount_applied? == true %>
                   <%= link_to "Bulk Discount Applied", merchant_bulk_discount_path(@merchant, ii.max_discount) %>
                   <% end %></td>

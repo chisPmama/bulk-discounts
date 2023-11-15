@@ -17,12 +17,14 @@ class BulkDiscountsController < ApplicationController
     merchant = Merchant.find(params[:merchant_id])
     merchant.bulk_discounts.create!(discount: params[:discount], quantity: params[:quantity])
     redirect_to merchant_bulk_discounts_path(merchant)
+    flash[:alert] = "Creation Successful"
   end
 
   def destroy
     merchant = Merchant.find(params[:merchant_id])
     BulkDiscount.find(params[:id]).destroy
     redirect_to merchant_bulk_discounts_path(merchant)
+    flash[:alert] = "Discount Deleted"
   end
 
   def edit
