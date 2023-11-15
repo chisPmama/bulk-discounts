@@ -39,7 +39,7 @@ RSpec.describe "Dashboard" do
     expect(page).to have_content(@incomplete2.id)
     click_link("#{@incomplete.id}")
     expect(current_path).to eq("/merchants/#{@merchant1.id}/invoices/#{@incomplete.id}")
-    expect(page).to have_content(@incomplete.status)
+    expect(page).to have_content(@incomplete.status.titleize)
   end
   
   ## USER STORY 3

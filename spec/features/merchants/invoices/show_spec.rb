@@ -19,7 +19,7 @@ RSpec.describe 'merchant invoices index page (/merchants/:merchant_id/invoices)'
       # - Customer first and last name
       visit "/merchants/#{@merchant1.id}/invoices/#{@invoice1.id}"
       expect(page).to have_content(@invoice1.id)
-      expect(page).to have_content(@invoice1.status)
+      expect(page).to have_content(@invoice1.status.titleize)
       expect(page).to have_content(@invoice1.created_at.strftime('%A, %B %d, %Y'))
       expect(page).to have_content(@invoice1.customer.name)
     end
