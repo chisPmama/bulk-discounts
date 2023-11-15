@@ -15,15 +15,27 @@ class InvoiceItem < ApplicationRecord
   end
 
   def calc_discounted_total
-    discounts = merchant.bulk_discounts
-    return update(discounted_total: unit_price/100.00*quantity) if !discounts.present?
+    if max_discount == "none"
+      total = price * quantity.round(2)
+      update(discounted_total: total)
+      return total
+    end
 
-    applicable_discounts = discounts.select{|disc| quantity >= disc.quantity}
-    return update(discounted_total: unit_price/100.00*quantity) if !applicable_discounts.present?
-    max_discount = applicable_discounts.max_by{|d| d.discount}
-    calc_discounted_total = ((unit_price * (1-max_discount.discount/100.0))/100.00)*quantity
+    calc_discounted_total = (price * (1-max_discount.discount/100.0))*quantity.round(2)
     update(discounted_total: calc_discounted_total)
     discounted_total
+  end
+
+  def bulk_discount_applied?
+    max_discount
+    calc_discounted_total != price*quantity.round(2)
+  end
+
+  def max_discount
+    discounts = merchant.bulk_discounts
+    applicable_discounts = discounts.select{|disc| quantity >= disc.quantity}
+    return "none" if !applicable_discounts.present? || !discounts.present?
+    applicable_discounts.max_by{|d| d.discount}
   end
 
 end
